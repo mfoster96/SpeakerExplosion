@@ -100,13 +100,13 @@
         //self.playStatus.hidden=YES;
     }
     
-//    if ( [_appDelegate master] == TRUE && [_appDelegate fileTransferCompleted] != TRUE) {
-//        self.playButton.enabled=NO;
-//        //self.playStatus.enabled=NO;
-//    } else {
-//        self.playButton.enabled=YES;
-//        //self.playStatus.enabled=YES;
-//    }
+    if ( [_appDelegate master] == TRUE && [_appDelegate fileTransferCompleted] != TRUE) {
+        self.playButton.enabled=NO;
+        //self.playStatus.enabled=NO;
+    } else {
+        self.playButton.enabled=YES;
+        //self.playStatus.enabled=YES;
+    }
     
     // List of files to send
     NSInteger numFiles=[_arrFiles count];
@@ -185,16 +185,16 @@
             //send pause message
             
             //UIImage *play = [UIImage imageNamed:@"play.png"];
-            self.playButton.enabled = YES;
-            [self.playButton setImage:_play forState:UIControlStateSelected];
+            //self.playButton.enabled = YES;
+            [self.playButton setImage:_play forState:UIControlStateNormal];
         }
         else
         {
             [self sendMyMessage];
             [_audioPlayer play];
             //UIImage *pause = [UIImage imageNamed:@"play.png"];
-            self.playButton.enabled = YES;
-            [self.playButton setImage:_pause forState:UIControlStateSelected];
+            //self.playButton.enabled = YES;
+            [self.playButton setImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
             
         }
     }
