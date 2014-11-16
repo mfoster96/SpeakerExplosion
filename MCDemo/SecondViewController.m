@@ -114,7 +114,7 @@
             for (int j=0; j<numPeers; j++) {
                 NSLog(@"Peer: %@", [[_appDelegate.mcManager.session connectedPeers] objectAtIndex:j]);
                 
-                [self sendFileToPeer:[_arrFiles objectAtIndex:i] peerIndex:j];
+                [self sendFileToPeer:i peerIndex:j];
             }
         }
         
@@ -122,7 +122,8 @@
     }
 }
 
-- (void)sendFileToPeer:(NSString *)filename peerIndex:(NSInteger)peerIndex {
+- (void)sendFileToPeer:(NSInteger)fileIndex peerIndex:(NSInteger)peerIndex {
+    NSString *filename=[_arrFiles objectAtIndex:fileIndex];
     NSString *filePath = [_documentsDirectory stringByAppendingPathComponent:filename];
     NSString *modifiedName = [NSString stringWithFormat:@"%@_%@", _appDelegate.mcManager.peerID.displayName, filename];
     NSURL *resourceURL = [NSURL fileURLWithPath:filePath];
@@ -137,15 +138,15 @@
                                                                }
                                                                
                                                                else{
-                                                                   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"MCDemo"
-                                                                                                                   message:@"File was successfully sent."
-                                                                                                                  delegate:self
-                                                                                                         cancelButtonTitle:nil
-                                                                                                         otherButtonTitles:@"Great!", nil];
+//                                                                   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"MCDemo"
+//                                                                                                                   message:@"File was successfully sent."
+//                                                                                                                  delegate:self
+//                                                                                                         cancelButtonTitle:nil
+//                                                                                                         otherButtonTitles:@"Great!", nil];
+//                                                                   
+//                                                                   [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
                                                                    
-                                                                   [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
-                                                                   
-                                                                   [_arrFiles replaceObjectAtIndex:_selectedRow withObject:_selectedFile];
+                                                                   [_arrFiles replaceObjectAtIndex:fileIndex withObject:filename];
                                                                    [_tblFiles performSelectorOnMainThread:@selector(reloadData)
                                                                                                withObject:nil
                                                                                             waitUntilDone:NO];
