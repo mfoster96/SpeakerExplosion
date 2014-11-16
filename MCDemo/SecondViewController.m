@@ -35,7 +35,12 @@
     
     _appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    [self copySampleFilesToDocDirIfNeeded];
+    if ( [_appDelegate master] == TRUE ) {
+        [self copySampleFilesToDocDirIfNeeded];
+    } else {
+        [self deleteSampleFilesFromDocDir];
+    }
+    
     _arrFiles = [[NSMutableArray alloc] initWithArray:[self getAllDocDirFiles]];
     
     [_tblFiles setDelegate:self];
@@ -56,20 +61,22 @@
                                                  name:@"didFinishReceivingResourceNotification"
                                                object:nil];
     
-    NSString *currentSong = [_arrFiles objectAtIndex:0];
-    NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", _documentsDirectory, currentSong]];
-    
-    NSError *error;
-    _audioPlayer = [[AVAudioPlayer alloc]
-                    initWithContentsOfURL:url
-                    error:&error];
-    if (error)
-    {
-        NSLog(@"Error in audioPlayer: %@",
-              [error localizedDescription]);
-    } else {
-        _audioPlayer.delegate = self;
-        [_audioPlayer prepareToPlay];
+    if ( [_appDelegate master] == TRUE ) {
+        NSString *currentSong = [_arrFiles objectAtIndex:0];
+        NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", _documentsDirectory, currentSong]];
+        
+        NSError *error;
+        _audioPlayer = [[AVAudioPlayer alloc]
+                        initWithContentsOfURL:url
+                        error:&error];
+        if (error)
+        {
+            NSLog(@"Error in audioPlayer: %@",
+                  [error localizedDescription]);
+        } else {
+            _audioPlayer.delegate = self;
+            [_audioPlayer prepareToPlay];
+        }
     }
 }
 
@@ -248,6 +255,39 @@
                              toPath:file2Path
                               error:&error];
         
+        if (error) {
+            NSLog(@"%@", [error localizedDescription]);
+            return;
+        }
+    }
+}
+
+
+-(void)deleteSampleFilesFromDocDir {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    _documentsDirectory = [[NSString alloc] initWithString:[paths objectAtIndex:0]];
+    
+    NSString *file1Path = [_documentsDirectory stringByAppendingPathComponent:@"falling.mp3"];
+    NSString *file2Path = [_documentsDirectory stringByAppendingPathComponent:@"all.mp3"];
+    //NSString *file1Path = [_documentsDirectory stringByAppendingPathComponent:@"sample_file1.txt"];
+    //NSString *file2Path = [_documentsDirectory stringByAppendingPathComponent:@"sample_file2.txt"];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error;
+    
+    
+    if ([fileManager fileExistsAtPath:file1Path]) {
+        [fileManager removeItemAtPath:file1Path error:&error];
+
+        if (error) {
+            NSLog(@"%@", [error localizedDescription]);
+            return;
+        }
+    }
+    
+    if ([fileManager fileExistsAtPath:file2Path]) {
+        [fileManager removeItemAtPath:file2Path error:&error];
+
         if (error) {
             NSLog(@"%@", [error localizedDescription]);
             return;
