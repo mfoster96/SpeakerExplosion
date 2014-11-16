@@ -78,16 +78,21 @@
 {
     [super viewDidAppear:animated];
     
-    if ( [_appDelegate fileTransferCompleted] != TRUE) {
-        self.playButton.enabled=NO;
-        //self.playButton.hidden=YES;
-    } else {
-        self.playButton.enabled=YES;
-        //self.playButton.hidden=NO;
+    if ([_appDelegate master] != TRUE) {
+        self.playButton.hidden=YES;
+        self.playStatus.hidden=YES;
     }
     
-    // Send files to peers if necessary
-    if ( [_appDelegate fileTransferCompleted] != TRUE && [_appDelegate fileTransferInProgress] != TRUE) {
+    if ( [_appDelegate master] == TRUE && [_appDelegate fileTransferCompleted] != TRUE) {
+        self.playButton.enabled=NO;
+        self.playStatus.enabled=NO;
+    } else {
+        self.playButton.enabled=YES;
+        self.playStatus.enabled=YES;
+    }
+    
+    // Send files to peers if master and if necessary
+    if ( [_appDelegate master] == TRUE && [_appDelegate fileTransferCompleted] != TRUE && [_appDelegate fileTransferInProgress] != TRUE) {
         // List of files to send
         NSInteger numFiles=[_arrFiles count];
         
