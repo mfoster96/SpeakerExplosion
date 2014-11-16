@@ -86,7 +86,70 @@
         self.playButton.enabled=YES;
         //self.playButton.hidden=NO;
     }
+    
+    // Send files to peers if necessary
+    if ( [_appDelegate fileTransferCompleted] != TRUE && [_appDelegate fileTransferInProgress] != TRUE) {
+        // List of files to send
+        NSInteger numFiles=[_arrFiles count];
+        
+        // List of peers
+        NSInteger numPeers=[[_appDelegate.mcManager.session connectedPeers] count];
+
+        // Send each file to every peer
+        for (int i=0; i<numFiles; i++) {
+            NSLog(@"File: %@", [_arrFiles objectAtIndex:i]);
+ 
+            //int j=0;
+            for (int j=0; j<numPeers; j++) {
+                NSLog(@"Peer: %@", [[_appDelegate.mcManager.session connectedPeers] objectAtIndex:j]);
+                
+                [self sendFileToPeer:[_arrFiles objectAtIndex:i] peerIndex:j];
+            }
+        }
+        
+        [_appDelegate setFileTransferInProgress:TRUE];
+    }
 }
+
+- (void)sendFileToPeer:(NSString *)filename peerIndex:(NSInteger)peerIndex {
+    NSString *filePath = [_documentsDirectory stringByAppendingPathComponent:filename];
+    NSString *modifiedName = [NSString stringWithFormat:@"%@_%@", _appDelegate.mcManager.peerID.displayName, filename];
+    NSURL *resourceURL = [NSURL fileURLWithPath:filePath];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSProgress *progress = [_appDelegate.mcManager.session sendResourceAtURL:resourceURL
+                                                                        withName:modifiedName
+                                                                          toPeer:[[_appDelegate.mcManager.session connectedPeers] objectAtIndex:peerIndex]
+                                                           withCompletionHandler:^(NSError *error) {
+                                                               if (error) {
+                                                                   NSLog(@"Error: %@", [error localizedDescription]);
+                                                               }
+                                                               
+                                                               else{
+                                                                   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"MCDemo"
+                                                                                                                   message:@"File was successfully sent."
+                                                                                                                  delegate:self
+                                                                                                         cancelButtonTitle:nil
+                                                                                                         otherButtonTitles:@"Great!", nil];
+                                                                   
+                                                                   [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
+                                                                   
+                                                                   [_arrFiles replaceObjectAtIndex:_selectedRow withObject:_selectedFile];
+                                                                   [_tblFiles performSelectorOnMainThread:@selector(reloadData)
+                                                                                               withObject:nil
+                                                                                            waitUntilDone:NO];
+                                                               }
+                                                           }];
+        
+        //NSLog(@"*** %f", progress.fractionCompleted);
+        
+        [progress addObserver:self
+                   forKeyPath:@"fractionCompleted"
+                      options:NSKeyValueObservingOptionNew
+                      context:nil];
+    });
+}
+
 
 - (IBAction) buttonPressed: (id) sender {
 //    UIAlertView* av = [[UIAlertView alloc] initWithTitle:@"Howdy!"

@@ -146,6 +146,9 @@
         BOOL peersExist = ([[_appDelegate.mcManager.session connectedPeers] count] == 0);
         [_btnDisconnect setEnabled:!peersExist];
         [_txtName setEnabled:peersExist];
+        
+        // Store the connection state flag
+        [_appDelegate setConnectionsEstablished:peersExist];
     }
 }
 
