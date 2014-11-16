@@ -244,7 +244,7 @@
 //    
 //    NSData *receivedData = [[notification userInfo] objectForKey:@"data"];
 //    NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
-    [self initAudioPlayer];
+    //[self initAudioPlayer];
     [_audioPlayer play];
     //[self.playStatus setText:@"PAUSE"];
 }
@@ -377,9 +377,6 @@
     _documentsDirectory = [[NSString alloc] initWithString:[paths objectAtIndex:0]];
     //
     
-    // Initialize the audio player with the first song
-    //[self initAudioPlayer];
-    
     NSString *destinationPath = [_documentsDirectory stringByAppendingPathComponent:resourceName];
     NSURL *destinationURL = [NSURL fileURLWithPath:destinationPath];
     
@@ -394,6 +391,9 @@
     [_arrFiles removeAllObjects];
     _arrFiles = nil;
     _arrFiles = [[NSMutableArray alloc] initWithArray:[self getAllDocDirFiles]];
+   
+    // Initialize the audio player with the first song
+    [self initAudioPlayer];
     
     [_tblFiles performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
