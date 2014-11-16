@@ -192,7 +192,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VZG-pM-95g">
-                                <rect key="frame" x="103" y="480" width="115" height="30"/>
+                                <rect key="frame" x="103" y="465" width="115" height="30"/>
                                 <color key="backgroundColor" red="1" green="0.7004854412" blue="0.69589122120000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="15"/>
                                 <state key="normal" title="DISCONNECT">

@@ -66,8 +66,6 @@
     _green = [UIColor colorWithRed:152.0 / 255 green:249.0 / 255 blue:147.0 / 255 alpha:1.0];
     _red =[UIColor colorWithRed:255.0 / 255 green:179.0 / 255 blue:177.0 / 255 alpha:1.0];
     self.playButton.backgroundColor = _red;
-
-
     
     if ( [_appDelegate master] == TRUE ) {
         NSString *currentSong = [_arrFiles objectAtIndex:0];
@@ -396,8 +394,7 @@
         }
         
         cell.textLabel.text = [_arrFiles objectAtIndex:indexPath.row];
-        
-        [[cell textLabel] setFont:[UIFont systemFontOfSize:14.0]];
+        cell.textLabel.font = [UIFont fontWithName:@"Futura" size:14.0];
     }
     else{
         cell = [tableView dequeueReusableCellWithIdentifier:@"newFileCellIdentifier"];
