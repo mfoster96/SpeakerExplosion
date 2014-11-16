@@ -81,12 +81,10 @@
     
     if ( [_appDelegate fileTransferCompleted] != TRUE) {
         self.playButton.enabled=NO;
-        self.playButton.userInteractionEnabled=NO;
-        self.playButton.hidden=YES;
+        //self.playButton.hidden=YES;
     } else {
         self.playButton.enabled=YES;
-        self.playButton.userInteractionEnabled=YES;
-        self.playButton.hidden=NO;
+        //self.playButton.hidden=NO;
     }
 }
 
