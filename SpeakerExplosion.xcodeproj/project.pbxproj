@@ -144,6 +144,8 @@
 				D9EA8C20187B1954008031B5 /* Main.storyboard */,
 				D9EA8C46187B225C008031B5 /* ConnectionsViewController.h */,
 				D9EA8C47187B225C008031B5 /* ConnectionsViewController.m */,
+				E52747F81A181871007E1111 /* falling.mp3 */,
+				E52747F91A181871007E1111 /* all.mp3 */,
 				D9EA8C26187B1954008031B5 /* SecondViewController.h */,
 				D9EA8C27187B1954008031B5 /* SecondViewController.m */,
 				D9EA8C23187B1954008031B5 /* FirstViewController.h */,
