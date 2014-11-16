@@ -16,8 +16,9 @@
 @property (nonatomic, strong) NSMutableArray *arrFiles;
 @property (nonatomic, strong) NSString *selectedFile;
 @property (nonatomic) NSInteger selectedRow;
-@property (nonatomic) UIColor *green;
-@property (nonatomic) UIColor *red;
+@property (nonatomic) UIImage *play;
+@property (nonatomic) UIImage *pause;
+
 
 
 -(void)copySampleFilesToDocDirIfNeeded;
@@ -62,10 +63,8 @@
                                              selector:@selector(didFinishReceivingResourceWithNotification:)
                                                  name:@"didFinishReceivingResourceNotification"
                                                object:nil];
-    
-    _green = [UIColor colorWithRed:152.0 / 255 green:249.0 / 255 blue:147.0 / 255 alpha:1.0];
-    _red =[UIColor colorWithRed:255.0 / 255 green:179.0 / 255 blue:177.0 / 255 alpha:1.0];
-    self.playButton.backgroundColor = _red;
+    _play = [UIImage imageNamed:@"play.png"];
+    _pause = [UIImage imageNamed:@"pause.png"];
     
     if ( [_appDelegate master] == TRUE ) {
         NSString *currentSong = [_arrFiles objectAtIndex:0];
@@ -93,16 +92,16 @@
     
     if ([_appDelegate master] != TRUE) {
         self.playButton.hidden=YES;
-        self.playStatus.hidden=YES;
+        //self.playStatus.hidden=YES;
     }
     
-    if ( [_appDelegate master] == TRUE && [_appDelegate fileTransferCompleted] != TRUE) {
-        self.playButton.enabled=NO;
-        self.playStatus.enabled=NO;
-    } else {
-        self.playButton.enabled=YES;
-        self.playStatus.enabled=YES;
-    }
+//    if ( [_appDelegate master] == TRUE && [_appDelegate fileTransferCompleted] != TRUE) {
+//        self.playButton.enabled=NO;
+//        //self.playStatus.enabled=NO;
+//    } else {
+//        self.playButton.enabled=YES;
+//        //self.playStatus.enabled=YES;
+//    }
     
     // Send files to peers if master and if necessary
     if ( [_appDelegate master] == TRUE && [_appDelegate fileTransferCompleted] != TRUE && [_appDelegate fileTransferInProgress] != TRUE) {
@@ -174,17 +173,20 @@
         if (_audioPlayer.playing == TRUE)
         {
             [_audioPlayer pause];
-            [self.playStatus setText:@"PLAY"];
-            [self.playButton setBackgroundColor:_green];
-
+            //send pause message
+            
+            //UIImage *play = [UIImage imageNamed:@"play.png"];
+            self.playButton.enabled = YES;
+            [self.playButton setImage:_play forState:UIControlStateSelected];
         }
         else
         {
             [self sendMyMessage];
             [_audioPlayer play];
-            [self.playStatus setText:@"PAUSE"];
-            [self.playButton setBackgroundColor:_red];
-
+            //UIImage *pause = [UIImage imageNamed:@"play.png"];
+            self.playButton.enabled = YES;
+            [self.playButton setImage:_pause forState:UIControlStateSelected];
+            
         }
     }
 //}
@@ -229,7 +231,7 @@
 //    NSData *receivedData = [[notification userInfo] objectForKey:@"data"];
 //    NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
     [_audioPlayer play];
-    [self.playStatus setText:@"PAUSE"];
+    //[self.playStatus setText:@"PAUSE"];
 }
 
 - (void)didReceiveMemoryWarning
