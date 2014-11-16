@@ -196,6 +196,7 @@
         else
         {
             [self sendMyMessage];
+            //usleep(20000);
             [_audioPlayer play];
             //UIImage *pause = [UIImage imageNamed:@"play.png"];
             //self.playButton.enabled = YES;
