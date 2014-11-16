@@ -174,7 +174,7 @@
 
     }
     cell.textLabel.text = [_arrConnectedDevices objectAtIndex:indexPath.row];
-    cell.textLabel.font = [UIFont fontWithName:@"Futura" size:17];
+    cell.textLabel.font = [UIFont fontWithName:@"Futura" size:14];
     return cell;
 }
 
