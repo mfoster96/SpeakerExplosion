@@ -241,6 +241,9 @@
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = Appcoda;
 				TargetAttributes = {
+					D9EA8C0A187B1954008031B5 = {
+						DevelopmentTeam = CBV8CKZXZK;
+					};
 					D9EA8C2E187B1955008031B5 = {
 						TestTargetID = D9EA8C0A187B1954008031B5;
 					};
@@ -428,10 +431,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MCDemo/SpeakerExplosion-Prefix.pch";
 				INFOPLIST_FILE = "MCDemo/SpeakerExplosion-Info.plist";
 				PRODUCT_NAME = SpeakerExplosion;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -441,10 +447,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MCDemo/SpeakerExplosion-Prefix.pch";
 				INFOPLIST_FILE = "MCDemo/SpeakerExplosion-Info.plist";
 				PRODUCT_NAME = SpeakerExplosion;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

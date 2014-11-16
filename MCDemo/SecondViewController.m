@@ -415,6 +415,7 @@
     NSLog(@"cellForRowAtIndexPath: Row %ld", (long)indexPath.row);
 
     UITableViewCell *cell;
+    NSString *testString=[_arrFiles objectAtIndex:indexPath.row];
     
     if ([[_arrFiles objectAtIndex:indexPath.row] isKindOfClass:[NSString class]]) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"CellIdentifier"];
@@ -507,7 +508,7 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     NSLog(@"observeValueForKeyPath: Path %@", keyPath);
-    NSLog(@"observeValueForKeyPath: Row %@", (long)_selectedRow);
+    NSLog(@"observeValueForKeyPath: Row %@", (long)0);
 
     NSString *sendingMessage = [NSString stringWithFormat:@"%@ - Sending %.f%%",
                                 @"falling.mp3",
