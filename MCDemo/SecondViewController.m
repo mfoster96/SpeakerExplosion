@@ -48,7 +48,12 @@
     [_tblFiles setDelegate:self];
     [_tblFiles setDataSource:self];
     [_tblFiles reloadData];
-    
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveDataWithNotification:)
+                                                 name:@"MCDidReceiveDataNotification"
+                                               object:nil];
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didStartReceivingResourceWithNotification:)
                                                  name:@"MCDidStartReceivingResourceNotification"
@@ -104,14 +109,18 @@
         self.playStatus.enabled=YES;
     }
     
+    // List of files to send
+    NSInteger numFiles=[_arrFiles count];
+    
+    // List of peers
+    NSInteger numPeers=[[_appDelegate.mcManager.session connectedPeers] count];
+    
+    if (numPeers < 1) {
+        NSLog(@"No peers");
+    }
+    
     // Send files to peers if master and if necessary
-    if ( [_appDelegate master] == TRUE && [_appDelegate fileTransferCompleted] != TRUE && [_appDelegate fileTransferInProgress] != TRUE) {
-        // List of files to send
-        NSInteger numFiles=[_arrFiles count];
-        
-        // List of peers
-        NSInteger numPeers=[[_appDelegate.mcManager.session connectedPeers] count];
-
+    if ( numFiles > 0 && numPeers > 0 && [_appDelegate master] == TRUE && [_appDelegate fileTransferCompleted] != TRUE && [_appDelegate fileTransferInProgress] != TRUE) {
         // Send each file to every peer
         for (int i=0; i<numFiles; i++) {
             NSLog(@"File: %@", [_arrFiles objectAtIndex:i]);
@@ -120,7 +129,7 @@
             for (int j=0; j<numPeers; j++) {
                 NSLog(@"Peer: %@", [[_appDelegate.mcManager.session connectedPeers] objectAtIndex:j]);
                 
-                [self sendFileToPeer:i peerIndex:j];
+                //[self sendFileToPeer:i peerIndex:j];
             }
         }
         
@@ -152,7 +161,7 @@
 //                                                                   
 //                                                                   [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
                                                                    
-                                                                   //[_arrFiles replaceObjectAtIndex:fileIndex withObject:filename];
+                                                                   [_arrFiles replaceObjectAtIndex:fileIndex withObject:filename];
                                                                    [_tblFiles performSelectorOnMainThread:@selector(reloadData)
                                                                                                withObject:nil
                                                                                             waitUntilDone:NO];
@@ -192,7 +201,7 @@
 -(void)sendMyMessage//implement parameter here to know if message is off or on
     {
     //NSData *dataToSend = [self getDateTime];
-    NSData *dataToSend = @"s";
+    NSData *dataToSend = [@"s" dataUsingEncoding:NSUTF8StringEncoding];
     NSArray *allPeers = _appDelegate.mcManager.session.connectedPeers;
     NSError *error;
     
@@ -262,14 +271,14 @@
             return;
         }
         
-        [fileManager copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"all" ofType:@"mp3"]
-                             toPath:file2Path
-                              error:&error];
-        
-        if (error) {
-            NSLog(@"%@", [error localizedDescription]);
-            return;
-        }
+//        [fileManager copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"all" ofType:@"mp3"]
+//                             toPath:file2Path
+//                              error:&error];
+//        
+//        if (error) {
+//            NSLog(@"%@", [error localizedDescription]);
+//            return;
+//        }
     }
 }
 
@@ -328,20 +337,24 @@
 
 
 -(void)updateReceivingProgressWithNotification:(NSNotification *)notification{
-    NSProgress *progress = [[notification userInfo] objectForKey:@"progress"];
-    
-    NSDictionary *dict = [_arrFiles objectAtIndex:(_arrFiles.count - 1)];
-    NSDictionary *updatedDict = @{@"resourceName"  :   [dict objectForKey:@"resourceName"],
-                                  @"peerID"        :   [dict objectForKey:@"peerID"],
-                                  @"progress"      :   progress
-                                  };
-    
-    
-    
-    [_arrFiles replaceObjectAtIndex:_arrFiles.count - 1
-                         withObject:updatedDict];
-    
-    [_tblFiles performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    NSLog(@"updateReceivingProgressWithNotification: Index %ld", (_arrFiles.count - 1));
+
+    if (_arrFiles.count > 0) {
+        NSProgress *progress = [[notification userInfo] objectForKey:@"progress"];
+        
+        NSDictionary *dict = [_arrFiles objectAtIndex:(_arrFiles.count - 1)];
+        NSDictionary *updatedDict = @{@"resourceName"  :   [dict objectForKey:@"resourceName"],
+                                      @"peerID"        :   [dict objectForKey:@"peerID"],
+                                      @"progress"      :   progress
+                                      };
+        
+        
+        
+        [_arrFiles replaceObjectAtIndex:_arrFiles.count - 1
+                             withObject:updatedDict];
+        
+        [_tblFiles performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    }
 }
 
 
@@ -350,6 +363,11 @@
     
     NSURL *localURL = [dict objectForKey:@"localURL"];
     NSString *resourceName = [dict objectForKey:@"resourceName"];
+    
+    // _documentsDirectory is nill for some reason in peer. Creating from scratch
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    _documentsDirectory = [[NSString alloc] initWithString:[paths objectAtIndex:0]];
+    //
     
     NSString *destinationPath = [_documentsDirectory stringByAppendingPathComponent:resourceName];
     NSURL *destinationURL = [NSURL fileURLWithPath:destinationPath];
@@ -383,6 +401,8 @@
 
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"cellForRowAtIndexPath: Row %ld", (long)indexPath.row);
+
     UITableViewCell *cell;
     
     if ([[_arrFiles objectAtIndex:indexPath.row] isKindOfClass:[NSString class]]) {
@@ -414,6 +434,8 @@
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"heightForRowAtIndexPath: Row %ld", (long)indexPath.row);
+
     if ([[_arrFiles objectAtIndex:indexPath.row] isKindOfClass:[NSString class]]) {
         return 60.0;
     }
@@ -472,14 +494,16 @@
 
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-//    NSString *sendingMessage = [NSString stringWithFormat:@"%@ - Sending %.f%%",
-//                                _selectedFile,
-//                                [(NSProgress *)object fractionCompleted] * 100
-//                                ];
-//    
-//    [_arrFiles replaceObjectAtIndex:_selectedRow withObject:sendingMessage];
-//    
-//    [_tblFiles performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    NSLog(@"observeValueForKeyPath: Row %@", keyPath);
+
+    NSString *sendingMessage = [NSString stringWithFormat:@"%@ - Sending %.f%%",
+                                _selectedFile,
+                                [(NSProgress *)object fractionCompleted] * 100
+                                ];
+    
+    [_arrFiles replaceObjectAtIndex:_selectedRow withObject:sendingMessage];
+    
+    [_tblFiles performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
 @end

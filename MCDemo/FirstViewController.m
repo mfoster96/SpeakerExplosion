@@ -69,7 +69,7 @@
 #pragma mark - Private method implementation
 -(void)sendMyMessage//implement parameter here to know if message is off or on
 {
-    NSData *dataToSend = @"s";
+    NSData *dataToSend = [@"s" dataUsingEncoding:NSUTF8StringEncoding];
     NSArray *allPeers = _appDelegate.mcManager.session.connectedPeers;
     NSError *error;
     
