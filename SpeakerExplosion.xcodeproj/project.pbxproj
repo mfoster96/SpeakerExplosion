@@ -130,12 +130,12 @@
 				D9EA8C1D187B1954008031B5 /* AppDelegate.h */,
 				D9EA8C1E187B1954008031B5 /* AppDelegate.m */,
 				D9EA8C20187B1954008031B5 /* Main.storyboard */,
-				D9EA8C23187B1954008031B5 /* FirstViewController.h */,
-				D9EA8C24187B1954008031B5 /* FirstViewController.m */,
-				D9EA8C26187B1954008031B5 /* SecondViewController.h */,
-				D9EA8C27187B1954008031B5 /* SecondViewController.m */,
 				D9EA8C46187B225C008031B5 /* ConnectionsViewController.h */,
 				D9EA8C47187B225C008031B5 /* ConnectionsViewController.m */,
+				D9EA8C26187B1954008031B5 /* SecondViewController.h */,
+				D9EA8C27187B1954008031B5 /* SecondViewController.m */,
+				D9EA8C23187B1954008031B5 /* FirstViewController.h */,
+				D9EA8C24187B1954008031B5 /* FirstViewController.m */,
 				D91F1269187F1D1900F45BC3 /* sample_file1.txt */,
 				D91F126A187F1D1900F45BC3 /* sample_file2.txt */,
 				D9EA8C29187B1954008031B5 /* Images.xcassets */,
@@ -219,7 +219,7 @@
 		D9EA8C03187B1954008031B5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = Appcoda;
 				TargetAttributes = {
 					D9EA8C2E187B1955008031B5 = {
@@ -333,7 +333,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -372,7 +371,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -430,7 +428,6 @@
 		D9EA8C44187B1955008031B5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SpeakerExplosion.app/SpeakerExplosion";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -453,7 +450,6 @@
 		D9EA8C45187B1955008031B5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SpeakerExplosion.app/SpeakerExplosion";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",

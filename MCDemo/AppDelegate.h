@@ -9,7 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "MCManager.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate> {
+
+    bool _connectionsEstablished;
+    bool _fileTransferInProgress;
+    bool _fileTransferCompleted;
+}
+
+@property(readwrite, assign) bool connectionsEstablished;
+@property(readwrite, assign) bool fileTransferInProgress;
+@property(readwrite, assign) bool fileTransferCompleted;
 
 @property (strong, nonatomic) UIWindow *window;
 

@@ -59,6 +59,32 @@
                                                object:nil];
 }
 
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if ( [_appDelegate fileTransferCompleted] != TRUE) {
+        self.playButton.enabled=NO;
+        self.playButton.userInteractionEnabled=NO;
+        self.playButton.hidden=YES;
+    } else {
+        self.playButton.enabled=YES;
+        self.playButton.userInteractionEnabled=YES;
+        self.playButton.hidden=NO;
+    }
+}
+
+- (IBAction) buttonPressed: (id) sender {
+    UIAlertView* av = [[UIAlertView alloc] initWithTitle:@"Howdy!"
+                                                 message:@"You tapped me."
+                                                delegate:nil
+                                       cancelButtonTitle:@"Cool"
+                                       otherButtonTitles:nil];
+    [av show];
+}
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -184,7 +210,7 @@
         
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CellIdentifier"];
-            [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+            //[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
         }
         
         cell.textLabel.text = [_arrFiles objectAtIndex:indexPath.row];

@@ -11,4 +11,6 @@
 @interface SecondViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tblFiles;
 
+@property IBOutlet UIButton* playButton;
+
 @end

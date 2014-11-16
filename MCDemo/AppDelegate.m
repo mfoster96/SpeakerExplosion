@@ -13,8 +13,14 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    _connectionsEstablished=FALSE;
+    _fileTransferInProgress=FALSE;
+    _fileTransferCompleted=FALSE;
 
     _mcManager = [[MCManager alloc] init];
+    
+    //UITabBarController *tabController = (UITabBarController *)self.window.rootViewController;
     
     return YES;
 }
