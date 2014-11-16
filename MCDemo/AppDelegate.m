@@ -17,6 +17,8 @@
     _connectionsEstablished=FALSE;
     _fileTransferInProgress=FALSE;
     _fileTransferCompleted=FALSE;
+    _master=TRUE;
+    //_master=FALSE;
 
     _mcManager = [[MCManager alloc] init];
     

@@ -14,11 +14,13 @@
     bool _connectionsEstablished;
     bool _fileTransferInProgress;
     bool _fileTransferCompleted;
+    bool _master;
 }
 
 @property(readwrite, assign) bool connectionsEstablished;
 @property(readwrite, assign) bool fileTransferInProgress;
 @property(readwrite, assign) bool fileTransferCompleted;
+@property(readwrite, assign) bool master;
 
 @property (strong, nonatomic) UIWindow *window;
 
