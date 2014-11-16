@@ -57,6 +57,23 @@
                                              selector:@selector(didFinishReceivingResourceWithNotification:)
                                                  name:@"didFinishReceivingResourceNotification"
                                                object:nil];
+    NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle]
+                                         pathForResource:@"falling"
+                                         ofType:@"mp3"]];
+    AudioServicesPlaySystemSound(1003);
+    NSError *error;
+    _audioPlayer = [[AVAudioPlayer alloc]
+                    initWithContentsOfURL:url
+                    error:&error];
+    if (error)
+    {
+        NSLog(@"Error in audioPlayer: %@",
+              [error localizedDescription]);
+    } else {
+        _audioPlayer.delegate = self;
+        [_audioPlayer prepareToPlay];
+        [_audioPlayer play];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -222,24 +239,8 @@
     
 }
 
-- (IBAction)playSound {
-    
-    //[audioPlayer release];
-    //audioPlayer = nil;
-    
-    NSString *audioFilePath = [NSString stringWithFormat:@"%@/falling.mp3", _documentsDirectory];
-    NSURL *audioFileURL = [NSURL fileURLWithPath:audioFilePath];
-    NSError *error = nil;
-    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:audioFileURL error:&error];
-    [audioPlayer setDelegate:self];
-    [audioPlayer prepareToPlay];
-    [audioPlayer play];
-    if (audioPlayer == nil)
-        NSLog(@"Error playing sound. %@", [error description]);
-    else
-        [audioPlayer play];
-    NSLog(@"is music playing: %@", audioPlayer.playing ? @"Yes" : @"No");
-
+- (IBAction)playPauseAudio:(id)sender {
+        [_audioPlayer play];
 }
 
 #pragma mark - UIActionSheet Delegate method implementation

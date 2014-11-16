@@ -114,7 +114,7 @@
                                     <color key="titleColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 </state>
                                 <connections>
-                                    <action selector="playSound" destination="QUy-BD-bpt" eventType="touchUpInside" id="yDs-mn-vRM"/>
+                                    <action selector="playPauseAudio:" destination="QUy-BD-bpt" eventType="touchUpInside" id="azg-kz-ULh"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -122,7 +122,6 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Files" image="second" id="Z7h-1E-pvt"/>
                     <connections>
-                        <outlet property="button_PlaySound" destination="Qf3-Qj-8bP" id="GcW-d9-PfC"/>
                         <outlet property="tblFiles" destination="I0r-Yf-nS8" id="Nen-lV-UJc"/>
                     </connections>
                 </viewController>

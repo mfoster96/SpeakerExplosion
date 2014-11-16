@@ -8,15 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVAudioPlayer.h>
+#import <AudioToolbox/AudioToolbox.h>
 
 
-@interface SecondViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate> {
+@interface SecondViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, AVAudioPlayerDelegate> {
     
-    UIButton *button_PlaySound;
-    AVAudioPlayer *audioPlayer;
+    
 }
-
-@property (nonatomic, retain) IBOutlet UIButton *button_PlaySound;
+@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
+- (IBAction)playPauseAudio:(id)sender;
 @property (weak, nonatomic) IBOutlet UITableView *tblFiles;
 
 
