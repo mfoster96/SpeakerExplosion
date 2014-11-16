@@ -158,12 +158,51 @@
     }
     else
     {
+        [self sendMyMessage];
+        
         [_audioPlayer play];
         [self.playStatus setText:@"Pause"];
 
     }
 }
 
+-(void)sendMyMessage{
+    NSData *dataToSend = [self getDateTime];
+    NSArray *allPeers = _appDelegate.mcManager.session.connectedPeers;
+    NSError *error;
+    
+    [_appDelegate.mcManager.session sendData:dataToSend
+                                     toPeers:allPeers
+                                    withMode:MCSessionSendDataReliable
+                                       error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+
+
+-(NSString*) getDateTime {
+        NSDateFormatter *formatter;
+        NSString        *dateString;
+        
+        formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"HH:mm:ss"];
+        
+        dateString = [formatter stringFromDate:[NSDate date]];
+    
+        NSLog(@"Current data: %@", dateString);
+        return dateString;
+    }
+
+
+-(void)didReceiveDataWithNotification:(NSNotification *)notification{
+    MCPeerID *peerID = [[notification userInfo] objectForKey:@"peerID"];
+    NSString *peerDisplayName = peerID.displayName;
+    
+    NSData *receivedData = [[notification userInfo] objectForKey:@"data"];
+    NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+}
 
 - (void)didReceiveMemoryWarning
 {
