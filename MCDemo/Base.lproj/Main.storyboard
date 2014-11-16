@@ -73,10 +73,7 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e90-n0-w0k">
                                 <rect key="frame" x="120" y="84" width="80" height="30"/>
-                                <color key="backgroundColor" red="0.66167193639999999" green="1" blue="0.64233745870000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
+                                <color key="backgroundColor" red="0.59607843137254901" green="0.97647058823529409" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <action selector="buttonPressed:" destination="QUy-BD-bpt" eventType="touchUpInside" id="hPG-oi-uZa"/>
                                 </connections>

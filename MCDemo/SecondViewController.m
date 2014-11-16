@@ -16,6 +16,8 @@
 @property (nonatomic, strong) NSMutableArray *arrFiles;
 @property (nonatomic, strong) NSString *selectedFile;
 @property (nonatomic) NSInteger selectedRow;
+@property (nonatomic) UIColor *green;
+@property (nonatomic) UIColor *red;
 
 
 -(void)copySampleFilesToDocDirIfNeeded;
@@ -60,6 +62,12 @@
                                              selector:@selector(didFinishReceivingResourceWithNotification:)
                                                  name:@"didFinishReceivingResourceNotification"
                                                object:nil];
+    
+    _green = [UIColor colorWithRed:152.0 / 255 green:249.0 / 255 blue:147.0 / 255 alpha:1.0];
+    _red =[UIColor colorWithRed:255.0 / 255 green:179.0 / 255 blue:177.0 / 255 alpha:1.0];
+    self.playButton.backgroundColor = _red;
+
+
     
     if ( [_appDelegate master] == TRUE ) {
         NSString *currentSong = [_arrFiles objectAtIndex:0];
@@ -169,17 +177,22 @@
         {
             [_audioPlayer pause];
             [self.playStatus setText:@"PLAY"];
+            [self.playButton setBackgroundColor:_green];
+
         }
         else
         {
             [self sendMyMessage];
             [_audioPlayer play];
             [self.playStatus setText:@"PAUSE"];
+            [self.playButton setBackgroundColor:_red];
+
         }
     }
 //}
 
--(void)sendMyMessage{
+-(void)sendMyMessage//implement parameter here to know if message is off or on
+    {
     //NSData *dataToSend = [self getDateTime];
     NSData *dataToSend = @"s";
     NSArray *allPeers = _appDelegate.mcManager.session.connectedPeers;
@@ -415,10 +428,6 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-}
-
-- (IBAction)playPauseAudio:(id)sender {
-        [_audioPlayer play];
 }
 
 #pragma mark - UIActionSheet Delegate method implementation
