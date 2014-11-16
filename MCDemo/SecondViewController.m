@@ -41,6 +41,7 @@
     if ( [_appDelegate master] == TRUE ) {
         [self copySampleFilesToDocDirIfNeeded];
     } else {
+        // Deleting files in AppDelegate now, not needed here
         //[self deleteSampleFilesFromDocDir];
     }
     
@@ -72,24 +73,27 @@
     _pause = [UIImage imageNamed:@"pause.png"];
     
     if ( [_appDelegate master] == TRUE ) {
-        NSString *currentSong = [_arrFiles objectAtIndex:0];
-        NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", _documentsDirectory, currentSong]];
-        
-        NSError *error;
-        _audioPlayer = [[AVAudioPlayer alloc]
-                        initWithContentsOfURL:url
-                        error:&error];
-        if (error)
-        {
-            NSLog(@"Error in audioPlayer: %@",
-                  [error localizedDescription]);
-        } else {
-            _audioPlayer.delegate = self;
-            [_audioPlayer prepareToPlay];
-        }
+        [self initAudioPlayer];
     }
 }
 
+- (void) initAudioPlayer {
+    NSString *currentSong = [_arrFiles objectAtIndex:0];
+    NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", _documentsDirectory, currentSong]];
+    
+    NSError *error;
+    _audioPlayer = [[AVAudioPlayer alloc]
+                    initWithContentsOfURL:url
+                    error:&error];
+    if (error)
+    {
+        NSLog(@"Error in audioPlayer: %@",
+              [error localizedDescription]);
+    } else {
+        _audioPlayer.delegate = self;
+        [_audioPlayer prepareToPlay];
+    }
+}
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -128,7 +132,7 @@
             for (int j=0; j<numPeers; j++) {
                 NSLog(@"Peer: %@", [[_appDelegate.mcManager.session connectedPeers] objectAtIndex:j]);
                 
-                //[self sendFileToPeer:i peerIndex:j];
+                [self sendFileToPeer:i peerIndex:j];
             }
         }
         
@@ -139,7 +143,8 @@
 - (void)sendFileToPeer:(NSInteger)fileIndex peerIndex:(NSInteger)peerIndex {
     NSString *filename=[_arrFiles objectAtIndex:fileIndex];
     NSString *filePath = [_documentsDirectory stringByAppendingPathComponent:filename];
-    NSString *modifiedName = [NSString stringWithFormat:@"%@_%@", _appDelegate.mcManager.peerID.displayName, filename];
+    //NSString *modifiedName = [NSString stringWithFormat:@"%@_%@", _appDelegate.mcManager.peerID.displayName, filename];
+    NSString *modifiedName = [NSString stringWithFormat:@"%@", filename];
     NSURL *resourceURL = [NSURL fileURLWithPath:filePath];
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -239,6 +244,7 @@
 //    
 //    NSData *receivedData = [[notification userInfo] objectForKey:@"data"];
 //    NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+    [self initAudioPlayer];
     [_audioPlayer play];
     //[self.playStatus setText:@"PAUSE"];
 }
@@ -371,6 +377,9 @@
     _documentsDirectory = [[NSString alloc] initWithString:[paths objectAtIndex:0]];
     //
     
+    // Initialize the audio player with the first song
+    //[self initAudioPlayer];
+    
     NSString *destinationPath = [_documentsDirectory stringByAppendingPathComponent:resourceName];
     NSURL *destinationURL = [NSURL fileURLWithPath:destinationPath];
     
@@ -438,12 +447,13 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"heightForRowAtIndexPath: Row %ld", (long)indexPath.row);
 
-    if ([[_arrFiles objectAtIndex:indexPath.row] isKindOfClass:[NSString class]]) {
-        return 60.0;
-    }
-    else{
-        return 80.0;
-    }
+    return 60.0;
+//    if ([[_arrFiles objectAtIndex:indexPath.row] isKindOfClass:[NSString class]]) {
+//        return 60.0;
+//    }
+//    else{
+//        return 80.0;
+//    }
 }
 
 
@@ -496,14 +506,17 @@
 
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    NSLog(@"observeValueForKeyPath: Row %@", keyPath);
+    NSLog(@"observeValueForKeyPath: Path %@", keyPath);
+    NSLog(@"observeValueForKeyPath: Row %@", (long)_selectedRow);
 
     NSString *sendingMessage = [NSString stringWithFormat:@"%@ - Sending %.f%%",
-                                _selectedFile,
+                                @"falling.mp3",
+                                //_selectedFile,
                                 [(NSProgress *)object fractionCompleted] * 100
                                 ];
     
-    [_arrFiles replaceObjectAtIndex:_selectedRow withObject:sendingMessage];
+    //[_arrFiles replaceObjectAtIndex:_selectedRow withObject:sendingMessage];
+    [_arrFiles replaceObjectAtIndex:0 withObject:sendingMessage];
     
     [_tblFiles performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
