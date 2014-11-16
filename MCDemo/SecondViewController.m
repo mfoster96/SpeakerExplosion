@@ -57,6 +57,23 @@
                                              selector:@selector(didFinishReceivingResourceWithNotification:)
                                                  name:@"didFinishReceivingResourceNotification"
                                                object:nil];
+    NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle]
+                                         pathForResource:@"falling"
+                                         ofType:@"mp3"]];
+    AudioServicesPlaySystemSound(1003);
+    NSError *error;
+    _audioPlayer = [[AVAudioPlayer alloc]
+                    initWithContentsOfURL:url
+                    error:&error];
+    if (error)
+    {
+        NSLog(@"Error in audioPlayer: %@",
+              [error localizedDescription]);
+    } else {
+        _audioPlayer.delegate = self;
+        [_audioPlayer prepareToPlay];
+        [_audioPlayer play];
+    }
 }
 
 
@@ -98,15 +115,15 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     _documentsDirectory = [[NSString alloc] initWithString:[paths objectAtIndex:0]];
     
-    NSString *file1Path = [_documentsDirectory stringByAppendingPathComponent:@"sample_file1.txt"];
-    NSString *file2Path = [_documentsDirectory stringByAppendingPathComponent:@"sample_file2.txt"];
+    NSString *file1Path = [_documentsDirectory stringByAppendingPathComponent:@"falling.mp3"];
+    NSString *file2Path = [_documentsDirectory stringByAppendingPathComponent:@"all.mp3"];
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError *error;
     
     
     if (![fileManager fileExistsAtPath:file1Path] || ![fileManager fileExistsAtPath:file2Path]) {
-        [fileManager copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"sample_file1" ofType:@"txt"]
+        [fileManager copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"falling" ofType:@"mp3"]
                              toPath:file1Path
                               error:&error];
         
@@ -115,7 +132,7 @@
             return;
         }
         
-        [fileManager copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"sample_file2" ofType:@"txt"]
+        [fileManager copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"all" ofType:@"mp3"]
                              toPath:file2Path
                               error:&error];
         
@@ -245,25 +262,12 @@
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSString *selectedFile = [_arrFiles objectAtIndex:indexPath.row];
-    UIActionSheet *confirmSending = [[UIActionSheet alloc] initWithTitle:selectedFile
-                                                                delegate:self
-                                                       cancelButtonTitle:nil
-                                                  destructiveButtonTitle:nil
-                                                       otherButtonTitles:nil];
     
-    for (int i=0; i<[[_appDelegate.mcManager.session connectedPeers] count]; i++) {
-        [confirmSending addButtonWithTitle:[[[_appDelegate.mcManager.session connectedPeers] objectAtIndex:i] displayName]];
-    }
-    
-    [confirmSending setCancelButtonIndex:[confirmSending addButtonWithTitle:@"Cancel"]];
-    
-    [confirmSending showInView:self.view];
-    
-    _selectedFile = [_arrFiles objectAtIndex:indexPath.row];
-    _selectedRow = indexPath.row;
 }
 
+- (IBAction)playPauseAudio:(id)sender {
+        [_audioPlayer play];
+}
 
 #pragma mark - UIActionSheet Delegate method implementation
 
