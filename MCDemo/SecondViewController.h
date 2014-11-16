@@ -14,7 +14,6 @@
 @property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 @property (weak, nonatomic) IBOutlet UITableView *tblFiles;
 @property IBOutlet UIButton* playButton;
-@property IBOutlet UILabel* playStatus;
 
 
 @end
