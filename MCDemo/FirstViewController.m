@@ -67,6 +67,32 @@
 
 
 #pragma mark - Private method implementation
+-(void)sendMyMessage//implement parameter here to know if message is off or on
+{
+    NSData *dataToSend = @"s";
+    NSArray *allPeers = _appDelegate.mcManager.session.connectedPeers;
+    NSError *error;
+    
+    [_appDelegate.mcManager.session sendData:dataToSend
+                                     toPeers:allPeers
+                                    withMode:MCSessionSendDataReliable
+                                       error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+
+
+-(void)didReceiveDataWithNotification:(NSNotification *)notification{
+    //    MCPeerID *peerID = [[notification userInfo] objectForKey:@"peerID"];
+    //    NSString *peerDisplayName = peerID.displayName;
+    //
+    //    NSData *receivedData = [[notification userInfo] objectForKey:@"data"];
+    //    NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+
+}
+
 
 
 
