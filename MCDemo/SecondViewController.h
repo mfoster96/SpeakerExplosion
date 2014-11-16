@@ -10,10 +10,15 @@
 #import <AVFoundation/AVAudioPlayer.h>
 
 
-@interface SecondViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, AVAudioPlayerDelegate>
+@interface SecondViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, AVAudioPlayerDelegate> {
+    NSUInteger _nextPeerSendIndex;
+    BOOL _audioPlayerInitialized;
+}
 @property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 @property (weak, nonatomic) IBOutlet UITableView *tblFiles;
 @property IBOutlet UIButton* playButton;
+@property(readwrite, assign) NSUInteger nextPeerSendIndex;
+@property(readwrite, assign) BOOL audioPlayerInitialized;
 
 
 @end

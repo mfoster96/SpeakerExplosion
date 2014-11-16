@@ -9,6 +9,8 @@
 #import "SecondViewController.h"
 #import "AppDelegate.h"
 
+#define SEQUENTIAL_SEND_TO_PEERS 1
+
 @interface SecondViewController ()
 
 @property (nonatomic, strong) AppDelegate *appDelegate;
@@ -35,6 +37,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    _nextPeerSendIndex=0;
     
     _appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
@@ -78,20 +82,24 @@
 }
 
 - (void) initAudioPlayer {
-    NSString *currentSong = [_arrFiles objectAtIndex:0];
-    NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", _documentsDirectory, currentSong]];
-    
-    NSError *error;
-    _audioPlayer = [[AVAudioPlayer alloc]
-                    initWithContentsOfURL:url
-                    error:&error];
-    if (error)
-    {
-        NSLog(@"Error in audioPlayer: %@",
-              [error localizedDescription]);
-    } else {
-        _audioPlayer.delegate = self;
-        [_audioPlayer prepareToPlay];
+    if ( _audioPlayerInitialized == FALSE) {
+        NSString *currentSong = [_arrFiles objectAtIndex:0];
+        NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", _documentsDirectory, currentSong]];
+        
+        NSError *error;
+        _audioPlayer = [[AVAudioPlayer alloc]
+                        initWithContentsOfURL:url
+                        error:&error];
+        if (error)
+        {
+            NSLog(@"Error in audioPlayer: %@",
+                  [error localizedDescription]);
+        } else {
+            _audioPlayer.delegate = self;
+            [_audioPlayer prepareToPlay];
+            
+            _audioPlayerInitialized=TRUE;
+        }
     }
 }
 
@@ -124,6 +132,12 @@
     
     // Send files to peers if master and if necessary
     if ( numFiles > 0 && numPeers > 0 && [_appDelegate master] == TRUE && [_appDelegate fileTransferCompleted] != TRUE && [_appDelegate fileTransferInProgress] != TRUE) {
+
+#if(SEQUENTIAL_SEND_TO_PEERS)
+        _nextPeerSendIndex=0;
+        // Send to next peer
+        [self sendToNextPeer];
+#else
         // Send each file to every peer
         for (int i=0; i<numFiles; i++) {
             NSLog(@"File: %@", [_arrFiles objectAtIndex:i]);
@@ -135,8 +149,17 @@
                 [self sendFileToPeer:i peerIndex:j];
             }
         }
-        
+#endif
         [_appDelegate setFileTransferInProgress:TRUE];
+    }
+}
+
+- (void) sendToNextPeer {
+    NSInteger numPeers=[[_appDelegate.mcManager.session connectedPeers] count];
+
+    if ( _nextPeerSendIndex < numPeers) {
+        [self sendFileToPeer:0 peerIndex:_nextPeerSendIndex];
+        _nextPeerSendIndex++;
     }
 }
 
@@ -169,6 +192,11 @@
                                                                    [_tblFiles performSelectorOnMainThread:@selector(reloadData)
                                                                                                withObject:nil
                                                                                             waitUntilDone:NO];
+                                                                   
+#if(SEQUENTIAL_SEND_TO_PEERS)
+                                                                   // Send the file to the next peer
+                                                                   [self sendToNextPeer];
+#endif
                                                                }
                                                            }];
         
