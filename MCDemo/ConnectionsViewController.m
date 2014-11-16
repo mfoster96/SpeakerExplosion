@@ -170,10 +170,11 @@
     
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CellIdentifier"];
+        
+
     }
-    
     cell.textLabel.text = [_arrConnectedDevices objectAtIndex:indexPath.row];
-    
+    cell.textLabel.font = [UIFont fontWithName:@"Futura" size:17];
     return cell;
 }
 

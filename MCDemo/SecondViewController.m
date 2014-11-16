@@ -168,14 +168,13 @@
         if (_audioPlayer.playing == TRUE)
         {
             [_audioPlayer pause];
-            [self.playStatus setText:@"Play"];
+            [self.playStatus setText:@"PLAY"];
         }
         else
         {
             [self sendMyMessage];
-            
             [_audioPlayer play];
-            [self.playStatus setText:@"Pause"];
+            [self.playStatus setText:@"PAUSE"];
         }
     }
 //}
@@ -218,8 +217,8 @@
 //    
 //    NSData *receivedData = [[notification userInfo] objectForKey:@"data"];
 //    NSString *receivedText = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
-    [_audioPlayer pause];
-    [self.playStatus setText:@"Play"];
+    [_audioPlayer play];
+    [self.playStatus setText:@"PAUSE"];
 }
 
 - (void)didReceiveMemoryWarning
