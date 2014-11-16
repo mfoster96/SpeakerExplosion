@@ -40,7 +40,6 @@
     
     [_tblFiles setDelegate:self];
     [_tblFiles setDataSource:self];
-    
     [_tblFiles reloadData];
     
     
@@ -60,7 +59,7 @@
     NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle]
                                          pathForResource:@"falling"
                                          ofType:@"mp3"]];
-    AudioServicesPlaySystemSound(1003);
+    //AudioServicesPlaySystemSound(1003);
     NSError *error;
     _audioPlayer = [[AVAudioPlayer alloc]
                     initWithContentsOfURL:url
@@ -72,7 +71,6 @@
     } else {
         _audioPlayer.delegate = self;
         [_audioPlayer prepareToPlay];
-        [_audioPlayer play];
     }
 }
 
@@ -93,12 +91,13 @@
 }
 
 - (IBAction) buttonPressed: (id) sender {
-    UIAlertView* av = [[UIAlertView alloc] initWithTitle:@"Howdy!"
-                                                 message:@"You tapped me."
-                                                delegate:nil
-                                       cancelButtonTitle:@"Cool"
-                                       otherButtonTitles:nil];
-    [av show];
+//    UIAlertView* av = [[UIAlertView alloc] initWithTitle:@"Howdy!"
+//                                                 message:@"You tapped me."
+//                                                delegate:nil
+//                                       cancelButtonTitle:@"Cool"
+//                                       otherButtonTitles:nil];
+//    [av show];
+    [_audioPlayer play];
 }
 
 
