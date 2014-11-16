@@ -26,7 +26,6 @@
 		D9EA8C3B187B1955008031B5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D9EA8C39187B1955008031B5 /* InfoPlist.strings */; };
 		D9EA8C3D187B1955008031B5 /* MCDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EA8C3C187B1955008031B5 /* MCDemoTests.m */; };
 		D9EA8C48187B225C008031B5 /* ConnectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EA8C47187B225C008031B5 /* ConnectionsViewController.m */; };
-		E5226F7E1A18330E006375A8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5226F7D1A18330E006375A8 /* AudioToolbox.framework */; };
 		E52747F71A181829007E1111 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E52747F61A181829007E1111 /* AVFoundation.framework */; };
 		E52747FA1A181871007E1111 /* falling.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E52747F81A181871007E1111 /* falling.mp3 */; };
 		E52747FB1A181871007E1111 /* all.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E52747F91A181871007E1111 /* all.mp3 */; };
@@ -70,7 +69,6 @@
 		D9EA8C3C187B1955008031B5 /* MCDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MCDemoTests.m; sourceTree = "<group>"; };
 		D9EA8C46187B225C008031B5 /* ConnectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionsViewController.h; sourceTree = "<group>"; };
 		D9EA8C47187B225C008031B5 /* ConnectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionsViewController.m; sourceTree = "<group>"; };
-		E5226F7D1A18330E006375A8 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		E52747F61A181829007E1111 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		E52747F81A181871007E1111 /* falling.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = falling.mp3; sourceTree = "<group>"; };
 		E52747F91A181871007E1111 /* all.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = all.mp3; sourceTree = "<group>"; };
@@ -81,7 +79,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5226F7E1A18330E006375A8 /* AudioToolbox.framework in Frameworks */,
 				E52747F71A181829007E1111 /* AVFoundation.framework in Frameworks */,
 				D9EA8C11187B1954008031B5 /* CoreGraphics.framework in Frameworks */,
 				D9EA8C13187B1954008031B5 /* UIKit.framework in Frameworks */,
@@ -124,7 +121,6 @@
 		D9EA8C0D187B1954008031B5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E5226F7D1A18330E006375A8 /* AudioToolbox.framework */,
 				E52747F61A181829007E1111 /* AVFoundation.framework */,
 				D9EA8C0E187B1954008031B5 /* Foundation.framework */,
 				D9EA8C10187B1954008031B5 /* CoreGraphics.framework */,

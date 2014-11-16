@@ -42,7 +42,6 @@
     [_tblFiles setDataSource:self];
     [_tblFiles reloadData];
     
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didStartReceivingResourceWithNotification:)
                                                  name:@"MCDidStartReceivingResourceNotification"
@@ -56,10 +55,10 @@
                                              selector:@selector(didFinishReceivingResourceWithNotification:)
                                                  name:@"didFinishReceivingResourceNotification"
                                                object:nil];
-    NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle]
-                                         pathForResource:@"falling"
-                                         ofType:@"mp3"]];
-    //AudioServicesPlaySystemSound(1003);
+    
+    NSString *currentSong = [_arrFiles objectAtIndex:0];
+    NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", _documentsDirectory, currentSong]];
+    
     NSError *error;
     _audioPlayer = [[AVAudioPlayer alloc]
                     initWithContentsOfURL:url
@@ -91,13 +90,17 @@
 }
 
 - (IBAction) buttonPressed: (id) sender {
-//    UIAlertView* av = [[UIAlertView alloc] initWithTitle:@"Howdy!"
-//                                                 message:@"You tapped me."
-//                                                delegate:nil
-//                                       cancelButtonTitle:@"Cool"
-//                                       otherButtonTitles:nil];
-//    [av show];
-    [_audioPlayer play];
+    if (_audioPlayer.playing == TRUE)
+    {
+        [_audioPlayer pause];
+        [self.playStatus setText:@"Play"];
+    }
+    else
+    {
+        [_audioPlayer play];
+        [self.playStatus setText:@"Pause"];
+
+    }
 }
 
 
