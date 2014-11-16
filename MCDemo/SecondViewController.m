@@ -40,7 +40,7 @@
     if ( [_appDelegate master] == TRUE ) {
         [self copySampleFilesToDocDirIfNeeded];
     } else {
-        [self deleteSampleFilesFromDocDir];
+        //[self deleteSampleFilesFromDocDir];
     }
     
     _arrFiles = [[NSMutableArray alloc] initWithArray:[self getAllDocDirFiles]];
@@ -152,7 +152,7 @@
 //                                                                   
 //                                                                   [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
                                                                    
-                                                                   [_arrFiles replaceObjectAtIndex:fileIndex withObject:filename];
+                                                                   //[_arrFiles replaceObjectAtIndex:fileIndex withObject:filename];
                                                                    [_tblFiles performSelectorOnMainThread:@selector(reloadData)
                                                                                                withObject:nil
                                                                                             waitUntilDone:NO];
@@ -472,14 +472,14 @@
 
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    NSString *sendingMessage = [NSString stringWithFormat:@"%@ - Sending %.f%%",
-                                _selectedFile,
-                                [(NSProgress *)object fractionCompleted] * 100
-                                ];
-    
-    [_arrFiles replaceObjectAtIndex:_selectedRow withObject:sendingMessage];
-    
-    [_tblFiles performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+//    NSString *sendingMessage = [NSString stringWithFormat:@"%@ - Sending %.f%%",
+//                                _selectedFile,
+//                                [(NSProgress *)object fractionCompleted] * 100
+//                                ];
+//    
+//    [_arrFiles replaceObjectAtIndex:_selectedRow withObject:sendingMessage];
+//    
+//    [_tblFiles performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
 @end

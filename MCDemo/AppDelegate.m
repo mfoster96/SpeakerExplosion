@@ -17,16 +17,53 @@
     _connectionsEstablished=FALSE;
     _fileTransferInProgress=FALSE;
     _fileTransferCompleted=FALSE;
-    _master=TRUE;
-    //_master=FALSE;
+    //_master=TRUE;
+    _master=FALSE;
 
     _mcManager = [[MCManager alloc] init];
     
     //UITabBarController *tabController = (UITabBarController *)self.window.rootViewController;
     
+    if (_master != TRUE) {
+        [self deleteSampleFilesFromDocDir];
+    }
+    
     return YES;
 }
-							
+
+
+-(void)deleteSampleFilesFromDocDir {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString* _documentsDirectory = [[NSString alloc] initWithString:[paths objectAtIndex:0]];
+    
+    NSString *file1Path = [_documentsDirectory stringByAppendingPathComponent:@"falling.mp3"];
+    NSString *file2Path = [_documentsDirectory stringByAppendingPathComponent:@"all.mp3"];
+    //NSString *file1Path = [_documentsDirectory stringByAppendingPathComponent:@"sample_file1.txt"];
+    //NSString *file2Path = [_documentsDirectory stringByAppendingPathComponent:@"sample_file2.txt"];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error;
+    
+    
+    if ([fileManager fileExistsAtPath:file1Path]) {
+        [fileManager removeItemAtPath:file1Path error:&error];
+        
+        if (error) {
+            NSLog(@"%@", [error localizedDescription]);
+            return;
+        }
+    }
+    
+    if ([fileManager fileExistsAtPath:file2Path]) {
+        [fileManager removeItemAtPath:file2Path error:&error];
+        
+        if (error) {
+            NSLog(@"%@", [error localizedDescription]);
+            return;
+        }
+    }
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
